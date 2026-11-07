@@ -20,4 +20,31 @@ function getUserById(req, res) {
   res.status(200).json(user);
 }
 
-module.exports = { createUser, listUsers, getUserById };
+function updateUser(req, res) {
+  const { name, email } = req.body;
+  const user = usersModel.update(Number(req.params.id), { name, email });
+
+  if (!user) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  res.status(200).json(user);
+}
+
+function deleteUser(req, res) {
+  const deleted = usersModel.remove(Number(req.params.id));
+
+  if (!deleted) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  res.status(204).send();
+}
+
+module.exports = {
+  createUser,
+  listUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+};
