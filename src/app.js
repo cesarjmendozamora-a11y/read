@@ -1,5 +1,6 @@
 const express = require('express');
 const usersRoutes = require('./routes/users.routes');
+const { notFound, errorHandler } = require('./middlewares/error-handler');
 
 const app = express();
 
@@ -10,5 +11,8 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/users', usersRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
